@@ -10,7 +10,7 @@ export function ProductsList({navigation}){
             <Product 
                 {...product}
                 onPress={() => {
-                    navigation.navigate('ProductDetails', {productId: product.id})
+                    navigation.navigate('ProductDetails')
                 }}
             />
         )

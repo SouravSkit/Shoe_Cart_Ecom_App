@@ -1,78 +1,81 @@
-import React, {useEffect, useState, useContext} from 'react';
-import {Text, StyleSheet, View, Image, ScrollView, SafeAreaView, Button,Dimensions} from "react-native";
+import React, { useEffect, useState, useContext } from 'react';
+import { Text, StyleSheet, View, Image, ScrollView, SafeAreaView, Button, Dimensions } from 'react-native';
 import { getProduct } from '../services/ProductsService';
-import {CartContext} from "../CartContext";
-
+import { CartContext } from '../CartContext';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
+const imageWidth = screenWidth * 0.8;
+const imageHeight = screenHeight * 0.4;
 
-const imageWidth = screenWidth * 0.8; 
-  const imageHeight = screenHeight * 0.4; 
+export function ProductDetails({ route }) {
+  const { productId } = route.params;
+  const [product, setProduct] = useState({});
+  const { addItemToCart, removeItemFromCart } = useContext(CartContext);
 
+  useEffect(() => {
+    setProduct(getProduct(productId));
+  }, [productId]);
 
-export function ProductDetails({route}) {
+  function onAddToCart() {
+    addItemToCart(product.id);
+  }
 
-    const {productId} = route.params;
-    const [product, setProduct] = useState({});
-
-    useEffect(() => {
-        setProduct(getProduct(productId))
-    })
-
-    const {addItemToCart} = useContext(CartContext)
-
-    function onAddToCart(){
-      addItemToCart(product.id)
-    }
-
+  function onRemoveFromCart() {
+    removeItemFromCart(product.id);
+  }
 
   return (
     <SafeAreaView>
-        <ScrollView>
-            <View style={styles.imageContainer}>
-                <Image style={styles.image} source={product.image} />
-            </View>
-            <View style={styles.infoContainer}>
-                <Text style={styles.name}>{product.name}</Text>
-                <Text style={styles.price}>$ {product.price}</Text>
-                <Text style={styles.description}>{product.description}</Text>
-                <Button onPress={onAddToCart} title="Add To Cart" />
-            </View>
-        </ScrollView>
+      <ScrollView>
+        <View style={styles.imageContainer}>
+          <Image style={styles.image} source={product.image} />
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.name}>{product.name}</Text>
+          <Text style={styles.price}>$ {product.price}</Text>
+          <Text style={styles.description}>{product.description}</Text>
+          <Button onPress={onAddToCart} title="Add To Cart" />
+        </View>
+
+        <View style={styles.infoContainer}>
+          <Text style={styles.name}>{product.name}</Text>
+          <Text style={styles.price}>$ {product.price}</Text>
+          <Text style={styles.description}>{product.description}</Text>
+          <Button onPress={onRemoveFromCart} title="Remove From Cart" />
+        </View>
+      </ScrollView>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-    imageContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-      backgroundColor: 'white'
-    },
-    image: {
-      width: imageWidth,
-      height:imageHeight,
-      resizeMode: 'cover'
-
-       
-    },
-    infoContainer: {
-      padding: 16
-    },
-    name: {
-      fontSize: 22,
-      fontWeight: 'bold',
-    },
-    price: {
-      fontSize: 16,
-      fontWeight: '600',
-      marginBottom: 8,
-    },
-    description: {
-      fontSize: 16,
-      fontWeight: '400',
-      color: '#787878',
-      marginBottom: 16,
-    },
-  });
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  image: {
+    width: imageWidth,
+    height: imageHeight,
+    resizeMode: 'cover',
+  },
+  infoContainer: {
+    padding: 16,
+  },
+  name: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  description: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#787878',
+    marginBottom: 16,
+  },
+});

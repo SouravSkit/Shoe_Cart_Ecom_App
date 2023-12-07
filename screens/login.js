@@ -27,8 +27,6 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      {/* <Text style={styles.headerText}>Welcome to Shoe Cart E-Comm App </Text> */}
-
       <View style={styles.headerContainer}>
       <Text style={styles.headerText}>
 	  Welcome to

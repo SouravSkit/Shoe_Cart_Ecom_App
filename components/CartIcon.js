@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { getProduct } from "../services/ProductsService";
+import { getProduct, getProducts } from "../services/ProductsService";
+import { ProductDetails } from "../screens/ProductDetails";
+import { useSelector } from "react-redux";
+
+
 
 export function addItemToCart(id, items, setItems) {
   const product = getProduct(id);
@@ -32,57 +36,36 @@ export function removeItemFromCart(id, items, setItems) {
   setItems((prevItems) => prevItems.filter((item) => item.id !== id));
 }
 
-export function getItemsCount(items) {
-  return items.reduce((sum, item) => sum + item.qty, 0);
-}
-
 export function getTotalPrice(items) {
 	return items.reduce((sum, item) => sum + item.totalPrice, 0);
+  }
+
+  export function getItemsCount(items) {
+	const cartItems = items?.cart?.items;
+  
+	if (!Array.isArray(cartItems)) {
+	  return 0;
+	}
+  
+	return cartItems.reduce((sum, item) => sum + (item.qty || 0), 0);
   }
 
 export function CartIcon({ navigation }) {
   const [items, setItems] = useState([]);
 
-  const PRODUCTS = [
-    {
-        id: 1,
-        name: "Addidas",
-        price: 3389,
-		image: require("../assets/product_images/addidas.jpg"),
-        description:
-          "Elevate your running experience with the Adidas Ultraboost 21, a pinnacle of innovation and comfort in the world of running shoes. Engineered for elite performance and designed with style in mind, this shoe redefines what it means to run with unmatched energy return and a sleek aesthetic.",
-    },
-    {
-        id: 2,
-        name: "Nike",
-        price: 4959,
-		image: require("../assets/product_images/nike.jpg"),
-        description:
-            "Experience the pinnacle of performance and style with the Nike Air Zoom Pegasus 38. Engineered for runners who demand excellence, this iconic running shoe combines cutting-edge technology with a sleek design, ensuring an unparalleled experience on the track, trail, or city streets.",
-    },
-    {
-    id: 3,
-    name: "Puma",
-    price: 979,
-    image: require("../assets/product_images/puma.webp"),
-    description: " a triumph of athletic innovation and street-ready style. This iconic shoe seamlessly blends retro-inspired design with cutting-edge technology, offering a versatile and comfortable option for the modern urban explorer."
-    }
-  ];
+  useEffect(() => {
+    setItems([]);
+  }, []);
+
+  const itemsCount = useSelector(getItemsCount);
+
 
   return (
     <View style={styles.container}>
-      <Text
-        style={styles.text}
-        onPress={() => {
-          navigation.navigate("Cart", { items: PRODUCTS });
-        }}
-      >
-        Cart ({getItemsCount(items)})
-      </Text>
+   <Text style={styles.text} onPress={()=>{navigation.navigate("Cart",{items})}}>Cart ({itemsCount})</Text>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 8,
@@ -99,3 +82,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
+
+
+

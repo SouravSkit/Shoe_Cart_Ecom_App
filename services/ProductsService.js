@@ -25,9 +25,12 @@ const PRODUCTS = [
 ]
 
 export function getProducts(){
+    console.log('product-->',PRODUCTS);
+
     return PRODUCTS;
 }
 
 export function getProduct(id){
+    console.log('id-->',id);
     return PRODUCTS.find((product) => product.id == id);
 }

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, Image, ScrollView, SafeAreaView, Button, Dimensions } from 'react-native';
 import { getProduct } from '../services/ProductsService';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart } from '../redux/actions/cartAction';
+import { getItemsCount } from '../components/CartIcon';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -12,21 +13,19 @@ const imageHeight = screenHeight * 0.4;
 export function ProductDetails({ route }) {
   const { productId } = route.params;
   const [product, setProduct] = useState({});
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
+  const itemsCount = useSelector(getItemsCount);
 
   useEffect(() => {
     setProduct(getProduct(productId));
   }, [productId]);
 
   function onAddToCart() {
-    console.log('addToCart===>',addToCart(productId));
-    dispatch(addToCart(productId)); 
+    dispatch(addToCart(productId));
   }
 
   function onRemoveFromCart() {
-    console.log('removeFromCart===>',removeFromCart(productId));
-
-    dispatch(removeFromCart(productId)); 
+    dispatch(removeFromCart(productId));
   }
 
   return (
@@ -39,7 +38,7 @@ export function ProductDetails({ route }) {
           <Text style={styles.name}>{product.name}</Text>
           <Text style={styles.price}>$ {product.price}</Text>
           <Text style={styles.description}>{product.description}</Text>
-          <Button onPress={onAddToCart} title="Add To Cart" />
+          <Button onPress={() => { onAddToCart(); }} title="Add To Cart" />
         </View>
 
         <View style={styles.infoContainer}>
@@ -48,11 +47,14 @@ export function ProductDetails({ route }) {
           <Text style={styles.description}>{product.description}</Text>
           <Button onPress={onRemoveFromCart} title="Remove From Cart" />
         </View>
+
+        <View>
+          <Text>Cart Item Count: {itemsCount}</Text>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   imageContainer: {

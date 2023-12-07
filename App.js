@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ProductsList } from "./screens/ProductsList.js";
 import { ProductDetails } from "./screens/ProductDetails.js";
 import { Cart } from "./screens/Cart.js";
-import { CartProvider } from "./CartContext.js";
+// import { CartProvider } from "./CartContext.js";
 import { CartIcon } from "./components/CartIcon.js";
 import LoginScreen from "./screens/login.js";
 import store from "./redux/store.js";

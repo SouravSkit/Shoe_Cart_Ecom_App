@@ -5,7 +5,6 @@ import { addItemToCart, removeItemFromCart, getItemsCount, getTotalPrice } from 
 export function Cart({ navigation, route }) {
 const { items } = route.params || { items: [] }; 
 
-
   function Totals() {
 	let total = getTotalPrice(items);
 

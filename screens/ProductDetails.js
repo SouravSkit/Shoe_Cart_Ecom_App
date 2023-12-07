@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, Image, ScrollView, SafeAreaView, Button, Dimensions } from 'react-native';
 import { getProduct } from '../services/ProductsService';
-import { CartContext } from '../CartContext';
+import { useDispatch } from 'react-redux';
+import { addToCart, removeFromCart } from '../redux/actions/cartAction';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -11,18 +12,18 @@ const imageHeight = screenHeight * 0.4;
 export function ProductDetails({ route }) {
   const { productId } = route.params;
   const [product, setProduct] = useState({});
-  const { addItemToCart, removeItemFromCart } = useContext(CartContext);
+  const dispatch = useDispatch(); 
 
   useEffect(() => {
     setProduct(getProduct(productId));
   }, [productId]);
 
   function onAddToCart() {
-    addItemToCart(product.id);
+    dispatch(addToCart(productId)); 
   }
 
   function onRemoveFromCart() {
-    removeItemFromCart(product.id);
+    dispatch(removeFromCart(productId)); 
   }
 
   return (
@@ -48,6 +49,7 @@ export function ProductDetails({ route }) {
     </SafeAreaView>
   );
 }
+
 
 const styles = StyleSheet.create({
   imageContainer: {

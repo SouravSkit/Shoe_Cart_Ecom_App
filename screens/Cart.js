@@ -1,9 +1,7 @@
 import React, {useEffect, useState, useContext} from "react";
 import {View, Image, Text, Button, FlatList, StyleSheet} from "react-native";
-import {CartContext} from "../CartContext";
 
 export function Cart({navigation}){
-    const {items, getItemsCount, getTotalPrice} = useContext(CartContext);
 
     function Totals(){
         let [total, setTotal] = useState(0);

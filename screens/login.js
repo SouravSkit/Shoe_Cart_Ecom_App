@@ -6,6 +6,7 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
+
 import { Product } from '../components/Product';
 
 export default function LoginScreen({ navigation }) {
@@ -42,13 +43,13 @@ export default function LoginScreen({ navigation }) {
         keyboardType={'default'}
         secureTextEntry={true}
       />
-      <Pressable
-        onPress={() => {
-            navigation.navigate('Products');
-        }}
-        style={styles.button}>
-        <Text style={styles.buttonText}>Log in</Text>
-      </Pressable>
+     <Pressable
+  onPress={() => {
+    navigation.navigate('Product'); 
+  }}
+  style={styles.button}>
+  <Text style={styles.buttonText}>Log in</Text>
+</Pressable>
     </ScrollView>
   );
 }

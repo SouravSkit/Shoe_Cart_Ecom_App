@@ -1,17 +1,17 @@
 export const addToCart = (productId) => {
-    return {
-      type: "ADDTOCART",
-      payload: {
-        productId,
-      },
-    };
+  return {
+    type: "ADDTOCART",
+    payload: {
+      productId,
+    },
   };
-  
-  export const removeFromCart = (productId) => {
-    return {
-      type: "REMOVEFROMCART",
-      payload: {
-        productId,
-      },
-    };
+};
+
+export const removeFromCart = (productId) => {
+  return {
+    type: "REMOVEFROMCART",
+    payload: {
+      productId,
+    },
   };
+};

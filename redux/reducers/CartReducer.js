@@ -1,33 +1,47 @@
-import { addToCart, removeFromCart } from '../actions/cartAction';
-
 const initialState = {
-    items: [],
-    // other cart-related state...
+    items: [], 
+    addCartSuccess: false,
+    addCartFail: false,
+    removeCartSuccess: false,
+    removeCartFail: false,
   };
   
   const cartReducer = (state = initialState, action) => {
-    console.log("Action:", action);
-
     switch (action.type) {
       case "ADDTOCART":
-        // Handle the addToCart action
-        // Return a new state object with the updated cart information
-        // Make sure to handle immutability correctly, e.g., using spread operators
-        return {
-          ...state,
-          items: [...state.items, /* updated cart item */],
-        };
+        const existingItem = state.items.find(item => item.productId === action.payload.productId);
+  
+        if (existingItem) {
+          return {
+            ...state,
+            items: state.items.map(item =>
+              item.productId === action.payload.productId
+                ? { ...item, qty: item.qty + 1, totalPrice: item.totalPrice + action.payload.price }
+                : item
+            ),
+            addCartSuccess: true,
+          };
+        } else {
+          return {
+            ...state,
+            items: [
+              ...state.items,
+              {
+                productId: action.payload.productId,
+                qty: 1,
+                totalPrice: action.payload.price,
+              },
+            ],
+            addCartSuccess: true,
+          };
+        }
   
       case "REMOVEFROMCART":
-        // Handle the removeFromCart action
-        // Return a new state object with the updated cart information
-        // Make sure to handle immutability correctly, e.g., using filter
         return {
           ...state,
-          items: state.items.filter(/* condition to remove item */),
+          items: state.items.filter(item => item.productId !== action.payload.productId),
+          removeCartSuccess: true,
         };
-  
-      // other cases...
   
       default:
         return state;
@@ -35,3 +49,4 @@ const initialState = {
   };
   
   export default cartReducer;
+  

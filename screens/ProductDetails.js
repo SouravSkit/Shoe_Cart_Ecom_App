@@ -19,10 +19,13 @@ export function ProductDetails({ route }) {
   }, [productId]);
 
   function onAddToCart() {
+    console.log('addToCart===>',addToCart(productId));
     dispatch(addToCart(productId)); 
   }
 
   function onRemoveFromCart() {
+    console.log('removeFromCart===>',removeFromCart(productId));
+
     dispatch(removeFromCart(productId)); 
   }
 

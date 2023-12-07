@@ -18,9 +18,6 @@ const { items } = route.params || { items: [] };
   }
 
   function renderItem({ item }) {
-	console.log('item.image ==>', item.image);
-
-  
 	return (
 	  <View style={styles.cartLine}>
 		{item.product && item.product.image && (

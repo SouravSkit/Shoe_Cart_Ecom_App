@@ -1,43 +1,49 @@
 import React, {useEffect, useState, useContext} from "react";
 import {View, Image, Text, Button, FlatList, StyleSheet} from "react-native";
+import { addItemToCart, removeItemFromCart, getItemsCount, getTotalPrice } from '../components/CartIcon';
 
-export function Cart({navigation}){
+export function Cart({ navigation, route }) {
+const { items } = route.params || { items: [] }; 
 
-    function Totals(){
-        let [total, setTotal] = useState(0);
-        useEffect(() => {
-            setTotal(getTotalPrice())
-        })
-        return(
-            <View style={styles.cartLineTotal}>
-                <Text style={[styles.lineLeft, styles.lineTotal]}>Total</Text>
-                <Text style={styles.mainTotal}>$ {total}</Text>
-            </View>
-        )
-    }
 
-    function renderItem({item}){
-        return(
-            <>
-                <View style={styles.cartLine}>
-                    <Image style={styles.image} source={item.product.image} />
-                    <Text style={styles.lineLeft}>{item.product.name} x {item.qty} <Text style={styles.productTotal}>${item.totalPrice}</Text></Text>
-                </View>
-            </>
-        )
-    }
+  function Totals() {
+	let total = getTotalPrice(items);
 
-    return(
-        <FlatList
-            style={styles.itemsList}
-            contentContainerStyle={styles.itemsListContainer}
-            data={items}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.product.id.toString()}
-            ListFooterComponent={Totals}
-        />
-    )
+    return (
+      <View style={styles.cartLineTotal}>
+        <Text style={[styles.lineLeft, styles.lineTotal]}>Total</Text>
+        <Text style={styles.mainTotal}>$ {total}</Text>
+      </View>
+    );
+  }
 
+  function renderItem({ item }) {
+	console.log('item.image ==>', item.image);
+
+  
+	return (
+	  <View style={styles.cartLine}>
+		{item.product && item.product.image && (
+		  <Image style={styles.image} source={item.product.image} />
+		)}
+		<Text style={styles.lineLeft}>
+		  {item.product && item.product.name} x {item.qty}{" "}
+		  <Text style={styles.productTotal}>${item.totalPrice}</Text>
+		</Text>
+	  </View>
+	);
+  }
+  
+  return (
+	<FlatList
+	  style={styles.itemsList}
+	  contentContainerStyle={styles.itemsListContainer}
+	  data={items}
+	  renderItem={renderItem}
+	  keyExtractor={(item) => (item.product && item.product.id ? item.product.id.toString() : Math.random().toString())}
+	  ListFooterComponent={Totals}
+	/>
+  );
 }
 
 const styles = StyleSheet.create({

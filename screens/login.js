@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
+  View,
 } from 'react-native';
 
 import { Product } from '../components/Product';
@@ -26,8 +27,40 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.headerText}>Welcome to Shoe Cart E-Comm App </Text>
-      <Text style={styles.regularText}>Login to continue </Text>
+      {/* <Text style={styles.headerText}>Welcome to Shoe Cart E-Comm App </Text> */}
+
+      <View style={styles.headerContainer}>
+      <Text style={styles.headerText}>
+	  Welcome to
+        <Text style={styles.innerText}> Shoe Cart E-Comm App</Text>
+      </Text>
+    </View>
+      <Text style={styles.regularText}>Login As Admin </Text>
+      <TextInput
+        style={styles.inputBox}
+        value={email}
+        onChangeText={onChangeEmail}
+        placeholder={'email'}
+        keyboardType={'email-address'}
+      />
+      <TextInput
+        style={styles.inputBox}
+        value={password}
+        onChangeText={onChangePassword}
+        placeholder={'password'}
+        keyboardType={'default'}
+        secureTextEntry={true}
+      />
+     <Pressable
+  onPress={() => {
+    navigation.navigate('Product'); 
+  }}
+  style={styles.button}>
+  <Text style={styles.buttonText}>Log in</Text>
+</Pressable>
+
+
+<Text style={styles.regularText}>Login As User </Text>
       <TextInput
         style={styles.inputBox}
         value={email}
@@ -57,7 +90,11 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#333333',
+    backgroundColor: '#00A1C9',
+  },
+  headerContainer: {
+    flex: 1,
+    backgroundColor: '#F4CE14',
   },
   headerText: {
     padding: 40,
@@ -93,5 +130,14 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontSize: 25,
+  },
+  headerText: {
+    padding: 40,
+    fontSize: 30,
+    color: 'black',
+    textAlign: 'center',
+  },
+  innerText: {
+    fontWeight: 'bold',
   },
 });

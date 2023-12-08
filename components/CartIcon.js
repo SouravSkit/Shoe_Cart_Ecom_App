@@ -5,7 +5,6 @@ import { ProductDetails } from "../screens/ProductDetails";
 import { useSelector } from "react-redux";
 
 
-
 export function addItemToCart(id, items, setItems) {
   const product = getProduct(id);
   setItems((prevItems) => {

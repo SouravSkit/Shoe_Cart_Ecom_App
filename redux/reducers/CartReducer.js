@@ -1,3 +1,4 @@
+import { getProduct } from '../../utils/cartOperations'; 
 
 const initialState = {
     items: [],
@@ -5,47 +6,52 @@ const initialState = {
     addCartFail: false,
     removeCartSuccess: false,
     removeCartFail: false,
-  };
-  
-  const cartReducer = (state = initialState, action) => {
+};
+
+const cartReducer = (state = initialState, action) => {
     switch (action.type) {
-      case "ADDTOCART":
-        const existingItem = state.items.find(item => item.productId === action.payload.productId);
-  
-        if (existingItem) {
-          return {
-            ...state,
-            items: state.items.map(item =>
-              item.productId === action.payload.productId
-                ? { ...item, qty: item.qty + 1, totalPrice: item.totalPrice + action.payload.price }
-                : item
-            ),
-            addCartSuccess: true,
-          };
-        } else {
-          return {
-            ...state,
-            items: [
-              ...state.items,
-              {
-                productId: action.payload.productId,
-                qty: 1,
-                totalPrice: action.payload.price,
-              },
-            ],
-            addCartSuccess: true,
-          };
-        }
-  
-      case "REMOVEFROMCART":
-        return {
-          ...state,
-          items: state.items.filter(item => item.productId !== action.payload.productId),
-          removeCartSuccess: true,
-        };
+        case 'ADDTOCART':
+            const product = getProduct(action.payload);
+            const existingItem = state.items.find((item) => item.id === action.payload);
+
+            if (!existingItem) {
+                return {
+                    ...state,
+                    items: [
+                        ...state.items,
+                        {
+                            id: action.payload,
+                            qty: 1,
+                            product,
+                            totalPrice: product.price,
+                        },
+                    ],
+                };
+            } else {
+                return {
+                    ...state,
+                    items: state.items.map((item) =>
+                        item.id === action.payload
+                            ? {
+                                  ...item,
+                                  qty: item.qty + 1,
+                                  totalPrice: item.totalPrice + product.price,
+                              }
+                            : item
+                    ),
+                };
+            }
+
+            case "REMOVEFROMCART":
+              console.log("Removing product with ID:", action.payload.productId);
+              return {
+                ...state,
+                items: [],
+                removeCartSuccess: true,
+              };
+        default:
+            return state;
     }
-  
-    return state; 
-  };
-  
-  export default cartReducer;
+};
+
+export default cartReducer;

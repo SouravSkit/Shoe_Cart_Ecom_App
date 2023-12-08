@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, Image, ScrollView, SafeAreaView, Button, Dimensions } from 'react-native';
-import { getProduct } from '../services/ProductsService';
+import { getProduct,getProducts } from '../services/ProductsService';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart } from '../redux/actions/cartAction';
 import { getItemsCount } from '../components/CartIcon';
@@ -15,8 +15,10 @@ export function ProductDetails({ route }) {
   const [product, setProduct] = useState({});
   const dispatch = useDispatch();
   const itemsCount = useSelector(getItemsCount);
+  console.log('itemsCount',itemsCount);
 
   useEffect(() => {
+    console.log("productId==>",productId);
     setProduct(getProduct(productId));
   }, [productId]);
 
@@ -28,6 +30,7 @@ export function ProductDetails({ route }) {
     dispatch(removeFromCart(productId));
   }
 
+  
   return (
     <SafeAreaView>
       <ScrollView>
@@ -38,14 +41,14 @@ export function ProductDetails({ route }) {
           <Text style={styles.name}>{product.name}</Text>
           <Text style={styles.price}>$ {product.price}</Text>
           <Text style={styles.description}>{product.description}</Text>
-          <Button onPress={() => { onAddToCart(); }} title="Add To Cart" />
+          <Button onPress={() => { onAddToCart(); }} title="Add To Cart"/>
         </View>
 
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{product.name}</Text>
           <Text style={styles.price}>$ {product.price}</Text>
           <Text style={styles.description}>{product.description}</Text>
-          <Button onPress={onRemoveFromCart} title="Remove From Cart" />
+          <Button onPress={onRemoveFromCart} title="Remove From Cart"/>
         </View>
 
         <View>

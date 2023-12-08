@@ -10,6 +10,7 @@ import { CartIcon } from "./components/CartIcon.js";
 import LoginScreen from "./screens/login.js";
 import store from "./redux/store.js";
 import { Provider } from 'react-redux';
+// import { CartProvider } from "./utils/cartOperations.js";
 
 const Stack = createNativeStackNavigator();
 

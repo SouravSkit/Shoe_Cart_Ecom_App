@@ -12,7 +12,7 @@ import { Product } from '../components/Product';
 
 export default function LoginScreen({ navigation }) {
   const [email, onChangeEmail] = useState('');
-  const [password, onChangePassword] = useState('');
+   const [password, onChangePassword] = useState('');
 
   function renderList({item: product}){
     return(
@@ -24,6 +24,11 @@ export default function LoginScreen({ navigation }) {
         />
     )
 }
+
+const [userEmail, onChangeUserEmail] = useState('');
+const [userpassword, onChangeUserPassword] = useState('');
+ 
+
 
   return (
     <ScrollView style={styles.container}>
@@ -61,15 +66,15 @@ export default function LoginScreen({ navigation }) {
 <Text style={styles.regularText}>Login As User </Text>
       <TextInput
         style={styles.inputBox}
-        value={email}
-        onChangeText={onChangeEmail}
+        value={userEmail}
+        onChangeText={onChangeUserEmail}
         placeholder={'email'}
         keyboardType={'email-address'}
       />
       <TextInput
         style={styles.inputBox}
-        value={password}
-        onChangeText={onChangePassword}
+        value={userpassword}
+        onChangeText={onChangeUserPassword}
         placeholder={'password'}
         keyboardType={'default'}
         secureTextEntry={true}
